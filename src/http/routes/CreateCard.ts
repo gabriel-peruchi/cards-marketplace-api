@@ -1,6 +1,6 @@
-import { z } from "zod"
-import { prisma } from "../../lib/prisma"
-import { FastifyInstance } from "fastify"
+import { z } from 'zod'
+import { prisma } from '../../lib/prisma'
+import { FastifyInstance } from 'fastify'
 
 export async function CreateCard(app: FastifyInstance) {
   app.post('/cards', async (request, reply) => {
@@ -17,11 +17,9 @@ export async function CreateCard(app: FastifyInstance) {
         name,
         imageUrl,
         description,
-      }
+      },
     })
 
-    return reply
-      .status(201)
-      .send({ cardId: card.id })
+    return reply.status(201).send({ cardId: card.id })
   })
 }
