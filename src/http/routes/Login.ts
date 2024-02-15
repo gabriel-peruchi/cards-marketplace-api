@@ -1,44 +1,37 @@
-import { z } from "zod"
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import { prisma } from "../../lib/prisma"
-import { FastifyInstance } from "fastify"
-import { authUser } from "../../config/auth"
+import { z } from "zod";
+import bcrypt from "bcryptjs";
+import { prisma } from "../../lib/prisma";
+import { FastifyInstance } from "fastify";
 
 export async function Login(app: FastifyInstance) {
-  app.post('/login', async (request, reply) => {
+  app.post("/login", async (request, reply) => {
     const loginUserBody = z.object({
       email: z.string().email(),
       password: z.string(),
-    })
+    });
 
-    const { email, password } = loginUserBody.parse(request.body)
+    const { email, password } = loginUserBody.parse(request.body);
 
     const user = await prisma.user.findUnique({
       where: {
-        email
-      }
-    })
+        email,
+      },
+    });
 
     if (!user) {
-      throw new Error('Email/Senha incorreto.')
+      throw new Error("Incorrect password/email");
     }
 
-    const senhasMatch = await bcrypt.compare(password, user.password)
+    const senhasMatch = await bcrypt.compare(password, user.password);
 
     if (!senhasMatch) {
-      throw new Error('Email/Senha incorreto.')
+      throw new Error("Incorrect password/email");
     }
 
-    const tokenPayload = {
-      userId: user.id,
-    }
-
-    const tokenOptions = {
-      subject: user.id,
-    }
-
-    const token = jwt.sign(tokenPayload, authUser.secretKey, tokenOptions)
+    const token = app.jwt.sign(
+      { id: user.id, email: user.email },
+      { expiresIn: "4380h" }
+    );    
 
     return reply.send({
       token,
@@ -47,6 +40,6 @@ export async function Login(app: FastifyInstance) {
         name: user.name,
         email: user.email,
       },
-    })
-  })
+    });
+  });
 }

@@ -20,7 +20,7 @@ export async function RegisterUser(app: FastifyInstance) {
     })
 
     if (userAlreadyExists) {
-      throw new Error('User already exists.')
+      throw new Error('User already exists')
     }
     
     const passwordCrypt = await bcrypt.hash(password, 8)

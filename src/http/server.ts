@@ -10,8 +10,11 @@ import { ListCards } from './routes/ListCards'
 import { ListTrades } from './routes/ListTrades'
 import { RegisterUser } from './routes/RegisterUser'
 import { AddOnMyCards } from './routes/AddOnMyCards'
+import AuthPlugin from '../lib/auth'
 
 const app = fastify()
+
+app.register(AuthPlugin)
 
 app.register(Login)
 app.register(GetProfile)
