@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  trades Trade[]
+  cards  UserCard[]
+
+  @@map("users")
+}
+
+model Card {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+
+  users      UserCard[]
+  tradeCards TradeCard[]
+
+  @@map("cards")
+}
+
+model UserCard {
+  id     String @id @default(uuid())
+  userId String
+  cardId String
+
+  user User @relation(fields: [userId], references: [id])
+  card Card @relation(fields: [cardId], references: [id])
+
+  @@unique([userId, cardId])
+  @@map("user_cards")
+}
+
+model Trade {
+  id        String   @id @default(uuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  tradeCards TradeCard[]
+
+  @@map("trades")
+}
+
+model TradeCard {
+  id      String @id @default(uuid())
+  cardId  String
+  tradeId String
+  type    String
+
+  card  Card  @relation(fields: [cardId], references: [id])
+  trade Trade @relation(fields: [tradeId], references: [id])
+
+  @@unique([cardId, tradeId])
+  @@map("trade_cards")
+}
