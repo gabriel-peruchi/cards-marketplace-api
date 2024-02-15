@@ -1,16 +1,16 @@
-import { z } from "zod"
-import { prisma } from "../../lib/prisma"
-import { FastifyInstance } from "fastify"
-import { Page } from "../../types/Page"
+import { z } from 'zod'
+import { prisma } from '../../lib/prisma'
+import { FastifyInstance } from 'fastify'
+import { Page } from '../../types/Page'
 
 export async function ListCards(app: FastifyInstance) {
   app.get('/cards', async (request, reply) => {
     const listCardQuery = z.object({
-      rpp: z.number(),
-      page: z.number(),
+      rpp: z.coerce.number(),
+      page: z.coerce.number(),
       search: z.string().optional(),
     })
-
+    
     const { page, rpp, search } = listCardQuery.parse(request.query)
 
     const queryPayload = {
@@ -23,7 +23,7 @@ export async function ListCards(app: FastifyInstance) {
       queryPayload.where = {
         name: {
           contains: search,
-          mode: 'insensitive'
+          mode: 'insensitive',
         },
       }
     }
@@ -31,14 +31,16 @@ export async function ListCards(app: FastifyInstance) {
     const cards = await prisma.card.findMany({
       ...queryPayload,
       orderBy: {
-        name: 'asc'
-      }
+        name: 'asc',
+      },
     })
 
-    return reply.send(Page.create({
-      page,
-      rpp,
-      list: cards
-    }))
+    return reply.send(
+      Page.create({
+        page,
+        rpp,
+        list: cards,
+      })
+    )
   })
 }

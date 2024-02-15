@@ -1,13 +1,13 @@
-import { z } from "zod"
-import { prisma } from "../../lib/prisma"
-import { FastifyInstance } from "fastify"
-import { Page } from "../../types/Page"
+import { z } from 'zod'
+import { prisma } from '../../lib/prisma'
+import { FastifyInstance } from 'fastify'
+import { Page } from '../../types/Page'
 
 export async function ListTrades(app: FastifyInstance) {
   app.get('/trades', async (request, reply) => {
     const listTradesQuery = z.object({
-      rpp: z.number(),
-      page: z.number(),
+      rpp: z.coerce.number(),
+      page: z.coerce.number(),
     })
 
     const { page, rpp } = listTradesQuery.parse(request.query)
@@ -21,26 +21,28 @@ export async function ListTrades(app: FastifyInstance) {
     const trades = await prisma.trade.findMany({
       ...queryPayload,
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'desc',
       },
       include: {
         user: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         tradeCards: {
           include: {
-            card: true
+            card: true,
           },
-        }
-      }
+        },
+      },
     })
 
-    return reply.send(Page.create({
-      page,
-      rpp,
-      list: trades
-    }))
+    return reply.send(
+      Page.create({
+        page,
+        rpp,
+        list: trades,
+      })
+    )
   })
 }
