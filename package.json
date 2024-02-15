@@ -1,0 +1,24 @@
+{
+  "name": "cards-marketplace",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "tsx watch src/http/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "5.9.1",
+    "bcryptjs": "^2.4.3",
+    "fastify": "^4.26.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.16",
+    "prisma": "^5.9.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
