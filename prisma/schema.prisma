@@ -50,7 +50,7 @@ model Trade {
   userId    String
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   tradeCards TradeCard[]
 
@@ -63,8 +63,8 @@ model TradeCard {
   tradeId String
   type    String
 
-  card  Card  @relation(fields: [cardId], references: [id])
-  trade Trade @relation(fields: [tradeId], references: [id])
+  card  Card  @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  trade Trade @relation(fields: [tradeId], references: [id], onDelete: Cascade)
 
   @@unique([cardId, tradeId])
   @@map("trade_cards")
