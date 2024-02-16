@@ -12,10 +12,10 @@ type RestorePageProps<T> = {
 }
 
 export class Page<T> {
-  list: T[]
-  rpp: number
-  page: number
-  more: boolean
+  list?: T[]
+  rpp?: number
+  page?: number
+  more?: boolean
 
   static create<T>({ page, rpp, list }: CreatePageProps<T>) {
     const pagination = new Page<T>()
@@ -35,15 +35,6 @@ export class Page<T> {
     pagination.page = page
     pagination.list = list
 
-    return pagination
-  }
-
-  static restore<T>({ page, rpp, more, list }: RestorePageProps<T>) {
-    const pagination = new Page<T>()
-    pagination.list = list
-    pagination.more = more
-    pagination.rpp = rpp
-    pagination.page = page
     return pagination
   }
 }

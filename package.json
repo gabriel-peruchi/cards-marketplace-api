@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
+    "start:prod": "node dist/http/server.js",
     "start:dev": "tsx watch src/http/server.ts"
   },
   "dependencies": {

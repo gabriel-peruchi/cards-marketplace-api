@@ -30,5 +30,5 @@ app.register(CreateTrade)
 app.register(DeleteTrade)
 
 app
-  .listen({ port: 3333 })
+  .listen({ port: process.env.PORT ? Number(process.env.PORT) : 3333 })
   .then(() => console.log('Server is running!'))
