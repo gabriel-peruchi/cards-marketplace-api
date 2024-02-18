@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import cors from '@fastify/cors'
 
 import { Login } from './routes/Login'
 import { CreateCard } from './routes/CreateCard'
@@ -14,6 +15,7 @@ import AuthPlugin from '../lib/auth'
 
 const app = fastify()
 
+app.register(cors, { origin: '*' })
 app.register(AuthPlugin)
 
 app.register(Login)
