@@ -13,4 +13,5 @@ A cards marketplace system where users can trade cards with other users.
 - Install dependencies (`yarn`);
 - Setup PostgreSQL and Redis (`docker compose up -d`);
 - Copy `.env.example` file (`cp .env.example .env`);
+- Run migrations (`npx prisma db push`);
 - Run application (`yarn start:dev`).
