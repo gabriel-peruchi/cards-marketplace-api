@@ -12,6 +12,7 @@ import { RegisterUser } from './routes/RegisterUser'
 import { AddOnMyCards } from './routes/AddOnMyCards'
 import AuthPlugin from '../lib/auth'
 import { GetCard } from './routes/GetCard'
+import { CreateCard } from './routes/CreateCard'
 
 const app = fastify()
 
@@ -23,6 +24,7 @@ app.register(GetProfile)
 app.register(RegisterUser)
 
 app.register(ListCards)
+app.register(CreateCard)
 app.register(ListMyCards)
 app.register(AddOnMyCards)
 app.register(GetCard)
