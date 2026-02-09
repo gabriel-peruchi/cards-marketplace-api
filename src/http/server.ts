@@ -24,7 +24,7 @@ app.register(GetProfile)
 app.register(RegisterUser)
 
 app.register(ListCards)
-app.register(CreateCard)
+// app.register(CreateCard)
 app.register(ListMyCards)
 app.register(AddOnMyCards)
 app.register(GetCard)
